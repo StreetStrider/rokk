@@ -10097,12 +10097,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         _iterator2.f();
       }
 
-      try {
-        var path_to = generatePath(path, reprs);
-      } catch (e) {
-        console.error('urimap: cannot generatePath(?)', path, reprs);
-        return;
-      }
+      var path_to = generatePath(path, reprs);
 
       if (location.pathname !== path_to) {
         var _replace2 = trailing_slash_fixing(location.pathname, path_to);
@@ -12747,7 +12742,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       return value;
     }
 
-    console.error('not_real', value);
     throw new TypeError('not_real');
   }
 
@@ -13754,7 +13748,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     react.exports.useEffect(function () {
       perks_delta.tap_on('FAIL', function (e) {
         switch (Object(e).message) {
-          default:
+          case 'dash':
+          case 'wrong_tool':
             return nav('/build/', {
               replace: true
             });
@@ -13763,6 +13758,12 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
           case 'wrong_mod_n':
           case 'wrong_oc':
             return build.reset();
+
+          default:
+            nav('/build/', {
+              replace: true
+            });
+            throw e;
         }
       });
     }, [perks_delta]);
@@ -13779,9 +13780,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     var up = React.createElement(Link, {
       to: "/"
     }, "↥");
-    var perks_delta2 = perks_delta.map_to('OK', 'FAIL', function () {
-      return new RangeError('wrong');
-    });
     return React.createElement('div', {
       className: "Builder"
     }, React.createElement(Result, {
@@ -13794,7 +13792,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         pocket: up
       });
     }), React.createElement(Result, {
-      input: perks_delta2
+      input: perks_delta
     }, function (perks) {
       return React.createElement(Report, {
         perks: perks
@@ -13919,16 +13917,16 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     react.exports.useEffect(function () {
       perks_delta.tap_on('FAIL', function (e) {
         switch (Object(e).message) {
-          default:
-            console.error(e);
-            throw TypeError('unknown');
-
           case 'dash':
           case 'wrong_tool':
           case 'wrong_build_repr':
           case 'wrong_mod_n':
           case 'wrong_oc':
             return build.reset();
+
+          default:
+            build.reset();
+            throw e;
         }
       });
     }, [perks_delta]);
@@ -14020,5 +14018,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   var app = React.createElement(App, null);
   var root = document.getElementById('app');
   react_dom.render(app, root);
-  setTimeout(function () {});
+  setTimeout(function () {
+    Promise.reject({
+      x: 1
+    });
+    Promise.reject(new TypeError('rj'));
+  });
 })();
